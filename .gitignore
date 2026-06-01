@@ -8,6 +8,7 @@
 # Ignore everything at the root level by default
 /*
 
+!README.md
 # --- Essential directories ---
 !/btop/
 !/btop/**
