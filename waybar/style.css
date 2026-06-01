@@ -1,0 +1,99 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #1a1b26; /* Fondo Tokyo Night */
+    color: #c0caf5;
+}
+
+#workspaces button {
+    padding: 0 12px;
+    background-color: transparent;
+    color: #565f89;
+    border-top: 2px solid transparent;
+}
+
+#workspaces button.active {
+    color: #7aa2f7;
+    border-top: 2px solid #7aa2f7;
+}
+
+#workspaces button:hover {
+    background: #24283b;
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+#window {
+    color: #9ece6a;
+    font-weight: bold;
+}
+
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#tray {
+    padding: 0 10px;
+    color: #c0caf5;
+}
+
+#clock {
+    color: #e0af68;
+    font-weight: bold;
+}
+
+#pulseaudio {
+    color: #7dcfff;
+}
+
+#network {
+    color: #bb9af7;
+}
+
+/* --- Estilos de la Batería --- */
+#battery {
+    color: #9ece6a; /* Verde para estado normal */
+}
+
+#battery.charging, #battery.plugged {
+    color: #7dcfff; /* Azul al cargar */
+}
+
+#battery.warning:not(.charging) {
+    color: #e0af68; /* Amarillo para advertencia (30%) */
+}
+
+#battery.critical:not(.charging) {
+    color: #f7768e; /* Rojo para estado crítico (15%) */
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Animación de parpadeo cuando la batería está crítica */
+@keyframes blink {
+    to {
+        background-color: #f7768e;
+        color: #1a1b26;
+    }
+}
+
+#custom-fan.quiet {
+  color: #7aa2f7;
+}
+
+#custom-fan.balanced {
+  color: #a9b1d6;
+}
+
+#custom-fan.performance {
+  color: #f7768e;
+}

@@ -1,0 +1,6 @@
+background-opacity = 0.85
+background-blur = true
+
+shell-integration-features = ssh-terminfo
+
+shell-integration-features = ssh-env

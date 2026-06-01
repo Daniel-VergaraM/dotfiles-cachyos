@@ -1,0 +1,51 @@
+# =============================================================================
+# DOTFILES WHITELIST
+# Only track essential configuration files. Everything else in ~/.config is
+# ignored by default to avoid caching browser data, application state, secrets,
+# and other auto-generated files in the repository.
+# =============================================================================
+
+# Ignore everything at the root level by default
+/*
+
+# --- Essential directories ---
+!/btop/
+!/btop/**
+!/fish/
+!/fish/**
+!/ghostty/
+!/ghostty/**
+!/gtk-3.0/
+!/gtk-3.0/**
+!/hypr/
+!/hypr/**
+!/kitty/
+!/kitty/**
+!/nvim/
+!/nvim/**
+!/opencode/
+!/opencode/**
+!/waybar/
+!/waybar/**
+!/yay/
+!/yay/**
+
+# --- Explicitly ignored (not tracked) ---
+/autostart/
+/cachyos/
+/micro/
+/mozilla/
+/discord/
+/dconf/
+/"Code - Insiders"/
+
+
+# --- Essential individual files ---
+!/.gitignore
+!/dolphinrc
+!/mimeapps.list
+!/pavucontrol.ini
+!/trashrc
+!/user-dirs.dirs
+!/user-dirs.locale
+!/cachyos-hello.json

@@ -1,0 +1,5 @@
+
+[Default Applications]
+x-scheme-handler/http=helium-browser.desktop
+x-scheme-handler/https=helium-browser.desktop
+text/html=helium-browser.desktop
