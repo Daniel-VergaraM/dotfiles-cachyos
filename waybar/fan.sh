@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MODE=$(~/.local/bin/fan-mode.sh get)
+MODE=$(~/.config/local-bin/fan-toggle.sh get)
 
 case "$MODE" in
 quiet)
