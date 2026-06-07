@@ -10,3 +10,5 @@ alias ff='fastfetch'
 #    # smth smth
 #end
 fnm env --use-on-cd | source
+
+source ~/.config/fish/navigation_plugin.fish
