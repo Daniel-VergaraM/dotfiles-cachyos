@@ -83,6 +83,7 @@ function forward
 end
 
 function nav
+    echo ""
     if not type -q fzf
         echo "fzf no está instalado"
         return 1
@@ -95,11 +96,11 @@ function nav
     end
 end
 
-# Alt + ←  (back)
-bind \e\[1\;3D back
+# Shift + ←  (back)
+bind \e\[1\;2D back
 
-# Alt + →  (forward)
-bind \e\[1\;3C forward
+# Shift + →  (forward)
+bind \e\[1\;2C forward
 
 # Ctrl + g → abrir navegador de dirs
 bind \cg nav
