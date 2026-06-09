@@ -30,6 +30,8 @@
 !/waybar/**
 !/yay/
 !/yay/**
+!/eww/
+!/eww/**
 
 # --- Explicitly ignored (not tracked) ---
 /autostart/

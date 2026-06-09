@@ -1,0 +1,205 @@
+(defwindow control_center
+  :monitor 0
+  :geometry (geometry
+    :anchor "top left"
+    :x "10px"
+    :y "50px"
+    :width "420px"
+    :height "80%"
+  )
+  :stacking "fg"
+  :windowtype "dock"
+  :wm-ignore false
+
+  (control_center_content)
+)
+
+;; =========================
+;; VARIABLES (USANDO LISTEN EN VEZ DE POLL)
+;; =========================
+
+(defpoll bluetooth_list :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/bluetooth.sh")
+(defpoll wifi_list :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/wifi.sh")
+(defpoll devices :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/devices.sh")
+(defpoll mics :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/mics.sh")
+
+(defvar avatar_img "/home/dvergaram/Descargas/avatar.jpg")
+(defvar wall_img "/tmp/wall_lock.jpg")
+
+;; Cambiados a deflisten usando tus propios scripts optimizados
+(deflisten volume :initial "50" "bash ~/.config/eww/scripts/volume.sh listen")
+(deflisten brightness :initial "50" "bash ~/.config/eww/scripts/brightness.sh listen")
+
+;; =========================
+;; LAYOUT PRINCIPAL
+;; =========================
+
+(defwidget control_center_content []
+  (box
+    :class "cc"
+    :orientation "v"
+    :space-evenly false
+    :spacing 12
+
+    (profile_widget)
+
+    (scroll
+      :vscroll true
+      :hscroll false
+      :vexpand true
+
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 12
+
+        ;; Sliders en paralelo
+        (box :orientation "h" :spacing 10 :space-evenly true
+          (volume_widget)
+          (brightness_widget)
+        )
+
+        ;; Redes en paralelo
+        (box :orientation "h" :spacing 10 :space-evenly true
+          (wifi_widget)
+          (bluetooth_widget)
+        )
+        
+        (box :orientation "h" :spacing 10 :space-evenly true
+          (audio_widget)
+          (mic_widget)
+        )
+
+        (media_widget)
+      )
+    )
+  )
+)
+
+;; =========================
+;; WIDGETS REFACTORIZADOS
+;; =========================
+
+(defwidget volume_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 5
+    (label :text "🔊 Volumen" :halign "start")
+    (scale
+      :min 0
+      :max 100
+      :value volume
+      :onchange "bash ~/.config/eww/scripts/volume.sh set {}"
+    )
+  )
+)
+
+(defwidget brightness_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 5
+    (label :text "☀️ Brillo" :halign "start")
+    (scale
+      :min 0
+      :max 100
+      :value brightness
+      :onchange "bash ~/.config/eww/scripts/brightness.sh set {}"
+    )
+  )
+)
+
+(defwidget wifi_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 8 :height 150
+    (label :text "🌐 WiFi" :halign "start")
+    (scroll :vscroll true :vexpand true
+      (box :orientation "v" :spacing 5 :space-evenly false
+        (for net in wifi_list
+          (button
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/wifi.sh connect '${net}'"
+            (label :text net :limit-width 15 :show-truncated true)
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget bluetooth_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 8 :height 150
+    (label :text " Bluetooth" :halign "start")
+    (scroll :vscroll true :vexpand true
+      (box :orientation "v" :spacing 5 :space-evenly false
+        (for dev in bluetooth_list
+          (button
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/bluetooth.sh connect '${dev}'"
+            (label :text dev :limit-width 15 :show-truncated true)
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget audio_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 5
+    (label :text "󰓃 Salida de Audio" :halign "start")
+    (scroll :vscroll true :height 80
+      (box :orientation "v" :spacing 5 :space-evenly false
+        (for dev in devices
+          (button
+            :class "btn"
+            ;; Le pasamos el nombre técnico al script
+            :onclick "bash ~/.config/eww/scripts/devices.sh set '${dev.name}'"
+            ;; Mostramos el nombre amigable en la interfaz
+            (label :text "${dev.desc}" :halign "start" :limit-width 30 :show-truncated true)
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget mic_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 5
+    (label :text " Entrada (Mic)" :halign "start")
+    (scroll :vscroll true :height 80
+      (box :orientation "v" :spacing 5 :space-evenly false
+        (for dev in mics
+          (button
+            :class "btn"
+            :onclick "bash ~/.config/eww/scripts/mics.sh set '${dev.name}'"
+            ;; limit-width 15 para que no rompa la tarjeta al dividir la pantalla
+            (label :text "${dev.desc}" :halign "start" :limit-width 15 :show-truncated true)
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget media_widget []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 10
+    (label :text "🎵 Reproductor" :halign "start")
+    (box :spacing 15 :halign "center"
+      (button :onclick "playerctl previous" "⏮")
+      (button :onclick "playerctl play-pause" "⏯")
+      (button :onclick "playerctl next" "⏭")
+    )
+  )
+)
+
+(defwidget profile_widget []
+  (box :class "profile-card" 
+       :style "background-image: linear-gradient(rgba(15, 17, 23, 0.8), rgba(15, 17, 23, 0.95)), url('${wall_img}'); background-size: cover;"
+       :orientation "h" 
+       :space-evenly false 
+       :spacing 15
+    ;; Usamos el widget image nativo que NUNCA falla en renderizar
+    (box :class "profile-avatar"
+         :style "background-image: url('${avatar_img}');"
+         :halign "center" :valign "center")
+
+    (box :orientation "v" :space-evenly false :valign "center" :spacing 2
+      (label :text "Daniel" :class "profile-name" :halign "start")
+      (label :text "@dvergaram" :class "profile-user" :halign "start")
+    )
+  )
+)

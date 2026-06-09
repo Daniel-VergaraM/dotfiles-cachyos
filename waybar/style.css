@@ -7,8 +7,9 @@
 }
 
 window#waybar {
-    background-color: #1a1b26; /* Fondo Tokyo Night */
-    color: #c0caf5;
+  background: rgba(26,28,38,0.6);
+  border-radius: 12px;
+  margin: 6px 10px;
 }
 
 #workspaces button {
@@ -41,6 +42,13 @@ window#waybar {
 #tray {
     padding: 0 10px;
     color: #c0caf5;
+}
+
+#clock:hover,
+#pulseaudio:hover,
+#network:hover
+#battery:hover {
+  background: rgba(255,255,255,0.08);
 }
 
 #clock {

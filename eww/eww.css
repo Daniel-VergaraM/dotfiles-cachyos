@@ -1,0 +1,120 @@
+/* ---- RESET ULTRA AGRESIVO ---- */
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", "Sans", sans-serif;
+}
+
+window {
+  background: transparent;
+}
+
+/* ---- CONTENEDOR PRINCIPAL (Sin necesidad de blur externo) ---- */
+.cc {
+  background: #11111b; /* Color sólido oscuro de Catppuccin/HyprCandy */
+  color: #cdd6f4;
+  border-radius: 30px; 
+  padding: 24px;
+  /* Borde sutil para darle volumen contra el fondo */
+  border: 2px solid rgba(255, 255, 255, 0.08); 
+  /* Sombra pesada para que "flote" sobre las demás ventanas */
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.8);
+  margin: 10px; 
+}
+
+/* ---- TARJETAS ---- */
+.card {
+  background: rgba(30, 30, 46, 0.95);
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #cdd6f4;
+  margin-bottom: 10px;
+}
+
+label {
+  color: #cdd6f4;
+}
+
+/* ---- BOTONES (Pill-shaped) ---- */
+.btn {
+  background: rgba(49, 50, 68, 0.8);
+  color: #cdd6f4;
+  border-radius: 99px; /* Forma de píldora */
+  padding: 10px 16px;
+  margin: 4px 0px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background: #89b4fa; /* Acento azul claro */
+  color: #11111b;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ---- SLIDERS (BARRAS SUAVES) ---- */
+scale trough {
+  background: rgba(49, 50, 68, 0.8);
+  min-height: 14px; /* Más gorditos */
+  border-radius: 99px;
+  margin: 10px 0px;
+}
+
+scale highlight {
+  background: #89b4fa;
+  border-radius: 99px;
+}
+
+scale slider {
+  min-width: 20px;
+  min-height: 20px;
+  background: #ffffff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  margin: -3px 0px; 
+}
+
+/* ---- TARJETA DE PERFIL ---- */
+.profile-card {
+  background: rgba(30, 30, 46, 0.95);
+  border-radius: 24px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 10px;
+}
+
+.profile-avatar {
+  min-width: 64px;
+  min-height: 64px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 100%; /* Círculo perfecto */
+  border: 3px solid #89b4fa;
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #cdd6f4;
+}
+
+.profile-user {
+  font-size: 14px;
+  color: #89b4fa;
+  font-weight: bold;
+}
+
+/* ---- SCROLLBARS ---- */
+scrollbar {
+  background: transparent;
+}
+scrollbar slider {
+  background: rgba(49, 50, 68, 0.8);
+  border-radius: 99px;
+  min-width: 6px;
+}
