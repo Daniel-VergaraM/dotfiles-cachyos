@@ -53,6 +53,7 @@ function __nav_on_cd --on-variable PWD
 end
 
 function back
+    echo ""
     if test $__nav_index -le 1
         echo "Inicio del historial"
         return 1
@@ -68,6 +69,7 @@ function back
 end
 
 function forward
+    echo ""
     if test $__nav_index -ge (count $__nav_stack)
         echo "Final del historial"
         return 1
