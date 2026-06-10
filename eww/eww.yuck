@@ -22,6 +22,8 @@
 (defpoll wifi_list :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/wifi.sh")
 (defpoll devices :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/devices.sh")
 (defpoll mics :interval "10s" :initial "[]" "bash ~/.config/eww/scripts/mics.sh")
+(defpoll weather :interval "1h" :initial "..." "curl --max-time 2 -s 'wttr.in/?format=%c+%t' || echo '󰖪 Sin red'")
+(defpoll asus_prof :interval "2s" :initial "Balanced" "asusctl profile -p | awk '{print $4}'")
 
 (defvar avatar_img "/home/dvergaram/Descargas/avatar.jpg")
 (defvar wall_img "/tmp/wall_lock.jpg")
@@ -41,7 +43,17 @@
     :space-evenly false
     :spacing 12
 
-    (profile_widget)
+    (box :class "profile-card" 
+         :style "background-image: linear-gradient(rgba(15, 17, 23, 0.8), rgba(15, 17, 23, 0.95)), url('${wall_img}'); background-size: cover;"
+         :orientation "h" :space-evenly false :spacing 15
+      (box :class "profile-avatar" :style "background-image: url('${avatar_img}');" :halign "center" :valign "center")
+      (box :orientation "v" :space-evenly false :valign "center" :spacing 2 :hexpand true
+        (label :text "Daniel" :class "profile-name" :halign "start")
+        (label :text "@dvergaram" :class "profile-user" :halign "start")
+      )
+      ;; Clima acoplado a la derecha
+      (weather_widget)
+    )
 
     (scroll
       :vscroll true
@@ -52,6 +64,8 @@
         :orientation "v"
         :space-evenly false
         :spacing 12
+
+        (quick_toggles)
 
         ;; Sliders en paralelo
         (box :orientation "h" :spacing 10 :space-evenly true
@@ -70,7 +84,10 @@
           (mic_widget)
         )
 
+        (hardware_rings)
         (media_widget)
+        (power_menu)
+
       )
     )
   )
@@ -201,5 +218,55 @@
       (label :text "Daniel" :class "profile-name" :halign "start")
       (label :text "@dvergaram" :class "profile-user" :halign "start")
     )
+  )
+)
+
+;; ---- WIDGET DE CLIMA (Para integrar en el perfil) ----
+(defwidget weather_widget []
+  (box :class "weather-box" :halign "end" :valign "center"
+    (label :text weather :class "weather-text")
+  )
+)
+
+;; ---- TOGGLES RÁPIDOS (ASUS, DND, Noche) ----
+(defwidget quick_toggles []
+  (box :orientation "h" :spacing 10 :space-evenly true
+    ;; Cicla entre los perfiles de ASUS con -n
+    (button :class "btn toggle-btn asus-${asus_prof}" :onclick "asusctl profile -n" "🚀 ${asus_prof}")
+    ;; No molestar (requiere dunst o mako)
+    (button :class "btn toggle-btn" :onclick "dunstctl set-paused toggle" "🔕 DND")
+    ;; Filtro de luz azul (requiere hyprsunset)
+    (button :class "btn toggle-btn" :onclick "pkill hyprsunset || hyprsunset -t 4000 &" "🌙 Noche")
+  )
+)
+
+;; ---- MONITORES DE HARDWARE (Círculos) ----
+(defwidget hardware_rings []
+  (box :class "card" :orientation "h" :spacing 15 :space-evenly true
+    (sys_ring :icon "" :val {EWW_CPU.avg} :class "cpu" :label "CPU")
+    (sys_ring :icon "" :val {EWW_RAM.used_mem_perc} :class "ram" :label "RAM")
+    ;; OJO: Si tu batería no marca nada, cambia BAT1 por BAT0
+    (sys_ring :icon "" :val {EWW_BATTERY.BAT1.capacity} :class "bat" :label "BAT") 
+  )
+)
+
+(defwidget sys_ring [icon val class label]
+  (box :orientation "v" :space-evenly false :spacing 5 :halign "center"
+    (box :class "ring-container"
+      (circular-progress :value val :class "sys-ring ${class}" :thickness 6
+        (label :text icon :class "sys-icon")
+      )
+    )
+    (label :text label :class "sys-label")
+  )
+)
+
+;; ---- MENÚ DE ENERGÍA ----
+(defwidget power_menu []
+  (box :class "card" :orientation "h" :spacing 10 :space-evenly true
+    (button :class "btn-power power" :onclick "ghostty -e bash -c 'sudo shutdown now' &" "⏻")
+    (button :class "btn-power reboot" :onclick "ghostty -e bash -c 'sudo reboot now' &" "")
+    (button :class "btn-power suspend" :onclick "eww close control_center && bash -c 'sleep 0.5 && hyprctl dispatch dpms off' &" "⏾")
+    (button :class "btn-power logout" :onclick "eww close control_center && bash -c '~/.config/hypr/gen_lock.sh && hyprlock' &" "󰍃")
   )
 )

@@ -118,3 +118,56 @@ scrollbar slider {
   border-radius: 99px;
   min-width: 6px;
 }
+
+/* ---- WIDGET CLIMA ---- */
+.weather-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #89b4fa;
+}
+
+/* ---- TOGGLES RÁPIDOS ---- */
+.toggle-btn {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 12px 10px;
+}
+/* Colores dinámicos para ASUS */
+.asus-Performance { color: #f38ba8; border: 1px solid rgba(243, 139, 168, 0.3); }
+.asus-Quiet { color: #a6e3a1; border: 1px solid rgba(166, 227, 161, 0.3); }
+.asus-Balanced { color: #f9e2af; border: 1px solid rgba(249, 226, 175, 0.3); }
+
+/* ---- MONITORES DE SISTEMA (CÍRCULOS) ---- */
+.ring-container {
+  margin: 5px;
+}
+.sys-ring {
+  background-color: #313244;
+}
+.sys-ring.cpu { color: #f38ba8; } /* Rojo */
+.sys-ring.ram { color: #f9e2af; } /* Amarillo */
+.sys-ring.bat { color: #a6e3a1; } /* Verde */
+
+.sys-icon {
+  font-size: 18px;
+  color: #cdd6f4;
+}
+.sys-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #a6adc8;
+}
+
+/* ---- MENÚ DE ENERGÍA ---- */
+.btn-power {
+  background-color: #313244;
+  color: #cdd6f4;
+  border-radius: 20px;
+  padding: 16px;
+  font-size: 24px;
+  transition: all 0.2s ease;
+}
+.btn-power.power:hover { background-color: #f38ba8; color: #11111b; }
+.btn-power.reboot:hover { background-color: #fab387; color: #11111b; }
+.btn-power.suspend:hover { background-color: #89b4fa; color: #11111b; }
+.btn-power.logout:hover { background-color: #cba6f7; color: #11111b; }
